@@ -1,0 +1,46 @@
+[package]
+name = "zara_staking"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "zara_staking"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+[dependencies]
+anchor-lang = { version = "0.30.1", features = ["init-if-needed"] }
+anchor-spl = { version = "0.30.1", features = ["token", "associated_token"] }
+bytemuck = { version = "1.4.0", features = ["derive"] }
+
+[dev-dependencies]
+solana-program-test = "1.18.8"
+solana-sdk = "1.18.8"
+tokio = { version = "1.36.0", features = ["full"] }
+
+[profile.release]
+overflow-checks = true
+lto = "fat"
+codegen-units = 1
+opt-level = "z"
+strip = true
+panic = "abort"
+
+[profile.release.build-override]
+opt-level = "z"
+incremental = false
+codegen-units = 1
+
+[profile.dev]
+split-debuginfo = "unpacked"
+debug = 0
+opt-level = "z"
+overflow-checks = false 
